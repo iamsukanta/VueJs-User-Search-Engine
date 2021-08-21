@@ -2,7 +2,7 @@
     <div class="home-section">
         <div class="top-section">
             <h1>Users CRUD</h1><br/>
-            <input type="text" @input="searchUserOnInput" v-model="searchData" class="search-input" placeholder="Enter User Name" />
+            <input type="text" v-model="searchData" class="search-input" placeholder="Enter User Name" />
             <button class="search-btn" @click="searchUser">Search</button>
         </div>
         <div class="bottom-section">
@@ -85,25 +85,22 @@
         },
 
         mounted() {
-            this.$store.dispatch('getUsers');
+            // this.$store.dispatch('getUsers');
         },
 
         computed: {
             users() {
-                console.log(this.$store.getters.users, 'lll');
                 return this.$store.getters.users;
             }
         },
 
         methods: {
             searchUser() {
-                this.$store.dispatch('searchUserByName', this.searchData);
-            },
-            searchUserOnInput() {
-                clearTimeout(this.debounce);
-                this.debounce = setTimeout(() => {
+                if(this.searchData) {
                     this.$store.dispatch('searchUserByName', this.searchData);
-                }, 400);
+                } else {
+                    alert("Please enter search data");
+                }
             },
 
             editUser(user) {
